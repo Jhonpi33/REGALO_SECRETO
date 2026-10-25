@@ -131,7 +131,7 @@ function agrupar(lista) {
       <header class="abierta__cabecera">
         <span class="abierta__emoji">🎉</span>
         <h1>¡Nos descubrimos!</h1>
-        <p class="texto-tenue">Todo lo que estuvo en secreto ahora está a la vista 💖</p>
+        <p class="texto-tenue">Todo lo que estuvo en secreto ahora está a la vista 💕</p>
       </header>
 
       <!-- ---------- ¿Cuánto nos conocemos? ---------- -->
@@ -165,7 +165,7 @@ function agrupar(lista) {
 
         <div class="corazones__columnas">
           <article class="corazon">
-            <h3>{{ auth.nombre }} 💖</h3>
+            <h3>{{ auth.nombre }} 💕</h3>
             <span class="etiqueta">Teoría</span>
             <p>{{ miCorazonada?.teoria || 'Sin teoría escrita.' }}</p>
             <span class="etiqueta">Regalo elegido</span>
@@ -225,7 +225,7 @@ function agrupar(lista) {
         </div>
       </section>
 
-      <p class="abierta__final">💖 Gracias por jugar conmigo. Ya puedo descansar de adivinar… hasta el próximo secreto.</p>
+      <p class="abierta__final">💕 Gracias por jugar conmigo. Ya puedo descansar de adivinar… hasta el próximo secreto.</p>
     </section>
   </div>
 </template>

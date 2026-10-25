@@ -150,4 +150,4 @@ swift scripts/extraer-poster.swift public/videos/video-01.mp4 public/videos/post
 
 ---
 
-Hecho con 💖 para Jhon y Majo.
+Hecho con 💕 para Jhon y Majo.

@@ -44,7 +44,7 @@ async function cambiarTema(nuevo) {
     return
   }
   await auth.cargarPerfil()
-  toast.ok(nuevo === 'rosa' ? 'Tema rosado aplicado 💗' : 'Tema azul aplicado 💙')
+  toast.ok(nuevo === 'rosa' ? 'Tema rosado aplicado 💕' : 'Tema azul aplicado 💙')
 }
 
 /** Activa o desactiva las notificaciones push de este dispositivo. */
@@ -89,7 +89,7 @@ const empujeActivo = computed(() => permiso.value === 'permitido')
           :aria-pressed="tema === 'rosa'"
           @click="cambiarTema('rosa')"
         >
-          <span class="tema__muestra tema__muestra--rosa">💗</span>
+          <span class="tema__muestra tema__muestra--rosa">💕</span>
           Rosado
         </button>
         <button

@@ -36,7 +36,7 @@ function alternar() {
     <!-- Destellos que salen cuando se abre -->
     <div class="caja__destellos" aria-hidden="true">
       <span v-for="n in 8" :key="n" class="destello" :style="{ '--i': n }">
-        {{ n % 3 === 0 ? '💖' : n % 3 === 1 ? '✨' : '⭐' }}
+        {{ n % 3 === 0 ? '💕' : n % 3 === 1 ? '✨' : '⭐' }}
       </span>
     </div>
 

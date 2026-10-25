@@ -89,7 +89,7 @@ const activo = ref(true)
 }
 
 .particula--corazon::after {
-  content: '💖';
+  content: '💕';
 }
 
 .confeti {

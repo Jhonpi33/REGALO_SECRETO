@@ -10,5 +10,5 @@
   <circle cx="140" cy="840" r="200" fill="#ffffff" opacity="0.10"/>
   <text x="400" y="470" font-size="220" text-anchor="middle">🕺</text>
   <text x="400" y="620" font-family="Georgia, serif" font-size="64" fill="#ffffff" text-anchor="middle" opacity="0.95">Foto 4</text>
-  <text x="400" y="690" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#ffffff" text-anchor="middle" opacity="0.8">Reemplázame por tus fotos 💖</text>
+  <text x="400" y="690" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#ffffff" text-anchor="middle" opacity="0.8">Reemplázame por tus fotos 💕</text>
 </svg>

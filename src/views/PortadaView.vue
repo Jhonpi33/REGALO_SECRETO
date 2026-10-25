@@ -49,7 +49,7 @@ import CarruselFotos from '../components/CarruselFotos.vue'
       </section>
 
       <footer class="portada__pie">
-        <p>Hecho con 💖 para descubrirnos el <strong>20 · 11 · 2026</strong></p>
+        <p>Hecho con 💕 para descubrirnos el <strong>20 · 11 · 2026</strong></p>
         <p class="texto-tenue">Cada día una pista · Cada pista una sonrisa</p>
       </footer>
     </main>

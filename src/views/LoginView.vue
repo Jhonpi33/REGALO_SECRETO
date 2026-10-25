@@ -42,7 +42,7 @@ async function enviar() {
     <div class="login__fondo" aria-hidden="true">
       <span class="login__mitad login__mitad--rosa" />
       <span class="login__mitad login__mitad--azul" />
-      <span class="login__corazon">💖</span>
+      <span class="login__corazon">💕</span>
     </div>
 
     <main class="login__tarjeta tarjeta aparecer">

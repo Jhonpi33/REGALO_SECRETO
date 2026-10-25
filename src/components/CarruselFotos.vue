@@ -79,7 +79,7 @@ onBeforeUnmount(detener)
             decoding="async"
             @error="($event.target.style.display = 'none')"
           />
-          <span class="foto__corazon">💖</span>
+          <span class="foto__corazon">💕</span>
         </div>
         <figcaption v-if="foto.pie" class="foto__pie">{{ foto.pie }}</figcaption>
       </figure>
