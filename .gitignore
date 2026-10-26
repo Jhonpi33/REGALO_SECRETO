@@ -6,6 +6,7 @@ dist-ssr
 .env
 .env.local
 .env.*.local
+CREDENCIALES.md
 *.local
 .DS_Store
 supabase/.temp

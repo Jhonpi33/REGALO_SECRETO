@@ -203,7 +203,15 @@ select public.llamar_funcion('notificar',
   jsonb_build_object('tipo', 'recordatorio-diario', 'forzar', true));
 ```
 
-> Para probar la víspera/gran día fuera de fecha agrega `"forzar": true`, como arriba.
+Devuelve un `job_id` (el envío es **asíncrono** con `pg_net`). Espera unos
+segundos y comprueba la respuesta real:
+
+```sql
+select status_code, content from net._http_response order by id desc limit 1;
+```
+
+> Debes ver `"ok": true`. Para probar la víspera/gran día fuera de fecha
+> agrega `"forzar": true`, como arriba.
 
 Para desprogramar todo después del 20/11/2026:
 
