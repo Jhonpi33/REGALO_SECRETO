@@ -293,12 +293,32 @@ Para ver la app con contenido antes de que llegue el 20 de noviembre:
 
 ---
 
+## 15. La carta de perdón (Jhon → Majo)
+
+La carta vive en **`/app/perdon`** y guarda su estado en la tabla `public.perdones`
+(migración `0003_carta_perdon.sql`).
+
+1. Ejecuta la migración 0003 (mismo procedimiento del paso 3).
+2. Despliega `notificar` (paso 8.3): ya entiende los tipos `perdon`, `perdon-si` y `perdon-no`.
+3. Entra a la app con el usuario de **Jhon** → menú **Yo** → escribe la ruta
+   `/app/perdon` y toca **"Escribir la carta y enviarla 💕"** (o "Reenviar la carta 💕").
+   Eso manda el push a Majo con la carta y los botones.
+4. Desde el celular de Majo la carta se abre con la notificación (o con el banner 💌).
+   Cada **No** suma intentos y le avisa a Jhon (la notificación se reemplaza, no se apila);
+   el **Sí** le manda a Jhon: *"¡Ella dice que SÍ! 💕 … te ganaste unas gomitas 🍬"*.
+
+> 🔐 Los tipos `perdon*` **exigen sesión de usuario** (no funcionan con la llave anon),
+> y cada usuario solo puede hacer lo que le toca: enviarla quien la escribe, responderla
+> quien la recibe.
+
+---
+
 ## ✅ Checklist final
 
 | # | Paso | Listo |
 | --- | --- | --- |
 | 1 | Proyecto creado en Supabase | ☐ |
-| 2 | Migraciones 0001 y 0002 ejecutadas | ☐ |
+| 2 | Migraciones 0001, 0002 y 0003 ejecutadas | ☐ |
 | 3 | 2 usuarios creados en Authentication | ☐ |
 | 4 | `perfiles` de Jhon y Majo insertados | ☐ |
 | 5 | `.env` con las 3 variables | ☐ |

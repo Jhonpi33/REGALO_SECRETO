@@ -25,6 +25,7 @@ se descubren y se entregan los regalos.
 | ✨ **IA** | "Pedir ayuda a la IA" analiza **todas** las pistas de la pareja y devuelve 3–5 ideas con `por_que`, `confianza` y `donde_conseguirlo`. Máx. 5 consultas/día. |
 | 🎁 **Revelación** | Bloqueada hasta el **20/11/2026 00:00 (Bogotá)**; después se abre con confeti y todo lo privado queda a la vista. |
 | 🔔 **Notificaciones** | Push diario a las 7:00 p. m., aviso de 1 semana (13/11), víspera (19/11) y el gran día (20/11) + banners dentro de la app. |
+| 💌 **Carta de perdón** | Una carta con empuje push a `/app/perdon`: la que la recibe elige **Sí** 💕 o **No** 😌 (y cada "No" hace aparecer más botones "No" por la pantalla). Al perdonar, le llega un besito 🍬 y al que la envió le avisan "¡Ella dice que SÍ!". |
 | 📲 **PWA** | Instalable en Android, iPhone (iOS 16.4+) y escritorio, con guía paso a paso. |
 
 ---
