@@ -41,6 +41,12 @@ const rutas = [
         name: 'perfil',
         component: () => import('../views/PerfilView.vue'),
         meta: { titulo: 'Mi perfil', pestana: 'perfil' }
+      },
+      {
+        path: 'perdon',
+        name: 'perdon',
+        component: () => import('../views/PerdonView.vue'),
+        meta: { titulo: 'Una carta para ti' }
       }
     ]
   },

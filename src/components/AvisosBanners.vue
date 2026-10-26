@@ -3,11 +3,38 @@
  * Banners dentro de la app con los mismos avisos de las notificaciones
  * (respaldo por si push no llega).
  */
-import { useRouter } from 'vue-router'
+import { computed, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { supabase } from '../lib/supabase'
+import { useAuthStore } from '../stores/auth'
 import { useAvisosStore } from '../stores/avisos'
 
 const avisos = useAvisosStore()
+const auth = useAuthStore()
+const route = useRoute()
 const router = useRouter()
+
+/** Carta de perdón sin responder (respaldo si no llegó el push). */
+const cartaPendiente = ref(null)
+
+watch(
+  () => [auth.listo, auth.usuario?.id],
+  async ([listo, id]) => {
+    if (!listo || !id) return
+    const { data } = await supabase
+      .from('perdones')
+      .select('id, estado, para_id, de_id, creada_en')
+      .eq('estado', 'pendiente')
+      .order('creada_en', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    cartaPendiente.value = data && data.para_id === id ? data : null
+  },
+  { immediate: true }
+)
+
+/** No mostrar el banner cuando la carta ya está abierta. */
+const noEstoyEnLaCarta = computed(() => route.name !== 'perdon')
 
 function ir(ruta) {
   router.push(ruta)
@@ -22,6 +49,12 @@ function ir(ruta) {
         <p class="banner__texto">{{ a.texto }}</p>
         <button class="btn btn--peq" @click="ir(a.accion.ruta)">{{ a.accion.nombre }}</button>
         <button class="banner__cerrar" aria-label="Cerrar aviso" @click="avisos.descartar(a.id)">✕</button>
+      </div>
+      <!-- Respaldo de la carta de perdón (si no llegó el push) -->
+      <div v-if="cartaPendiente && noEstoyEnLaCarta" key="carta-perdon" class="banner banner--carta">
+        <span class="banner__emoji">💌</span>
+        <p class="banner__texto">Alguien te escribió una carta y quiere que le respondas 💕</p>
+        <button class="btn btn--peq" @click="ir('/app/perdon')">Abrirla</button>
       </div>
     </transition-group>
   </div>
@@ -52,6 +85,11 @@ function ir(ruta) {
   border-radius: 16px;
   box-shadow: var(--sombra);
   backdrop-filter: blur(12px);
+}
+
+.banner--carta {
+  border-color: var(--color-primario);
+  background: linear-gradient(100deg, rgba(66, 24, 52, 0.97), rgba(45, 27, 74, 0.97));
 }
 
 .banner__emoji {
