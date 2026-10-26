@@ -10,6 +10,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'icons/*.png', 'videos/poster-01.jpg'],
+      // Render sirve .webmanifest como application/octet-stream; con .json
+      // recibe application/json (MIME válido para el navegador).
+      manifestFilename: 'manifest.json',
       manifest: {
         name: 'Regalo Secreto — Jhon & Majo',
         short_name: 'Regalo Secreto',
@@ -40,7 +43,7 @@ export default defineConfig({
         // Handler de push + click de notificaciones (archivito en /public)
         importScripts: ['push-handler.js'],
         // Precache del build + guardado offline de la app shell
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,json}'],
         navigateFallback: '/index.html',
         runtimeCaching: [
           {
