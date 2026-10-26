@@ -8,6 +8,9 @@ se descubren y se entregan los regalos.
 
 > Aplicación web instalable en el celular (PWA), 100% en español, con tema rosa para Majo y tema azul para Jhon.
 
+**🚀 En línea:** https://regalo-secreto-jwy9.onrender.com
+(desplegada con Render Blueprint desde la rama `main` de este repositorio)
+
 ---
 
 ## ✨ Qué incluye
