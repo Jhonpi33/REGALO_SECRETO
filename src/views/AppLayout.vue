@@ -13,6 +13,7 @@ import { useIAStore } from '../stores/ia'
 import { useToastStore } from '../stores/toast'
 import { useRevelacion } from '../composables/useRevelacion'
 import { activarNotificaciones, estadoPermiso, soportaPush } from '../composables/useNotificaciones'
+import { supabase } from '../lib/supabase'
 import ModalBase from '../components/ModalBase.vue'
 
 const route = useRoute()
@@ -63,7 +64,16 @@ async function aceptarPush() {
   localStorage.setItem('regalo-secreto:push-preguntado', '1')
   mostrarExplicacionPush.value = false
   const resultado = await activarNotificaciones()
-  if (resultado === 'ok') toast.ok('¡Listo! Te avisaremos cuando toque 🎁')
+  if (resultado === 'ok') {
+    toast.ok('¡Listo! Te avisaremos cuando toque 🎁')
+    // De una vez le mandamos una prueba, para ver que sí le llega
+    supabase.functions
+      .invoke('notificar', { body: { tipo: 'prueba' } })
+      .then(({ error }) => {
+        if (error) console.warn('No se pudo enviar la prueba de push:', error.message)
+      })
+      .catch((e) => console.warn('No se pudo enviar la prueba de push:', e?.message))
+  }
   else if (resultado === 'denegado') toast.mostrar('Puedes activar las notificaciones desde la configuración de tu navegador.')
   else if (resultado === 'sin-llave') toast.mostrar('Falta la llave VAPID pública en el .env (mira el SETUP.md).')
   else if (resultado === 'no-soportado') toast.mostrar('Este navegador no soporta notificaciones push.')

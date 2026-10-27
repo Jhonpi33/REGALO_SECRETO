@@ -2,7 +2,7 @@
 /**
  * Mi perfil: tema visual, notificaciones, datos de la cuenta y salida.
  */
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useAuthStore } from '../stores/auth'
 import { usePistasStore } from '../stores/pistas'
 import { useToastStore } from '../stores/toast'
@@ -57,14 +57,33 @@ async function alternarNotificaciones() {
   }
   const r = await activarNotificaciones()
   permiso.value = estadoPermiso()
-  if (r === 'ok') toast.ok('¡Notificaciones activadas! 🔔')
-  else if (r === 'denegado') toast.mostrar('El permiso fue rechazado. Actívalo desde los ajustes del navegador.')
+  if (r === 'ok') {
+    toast.ok('¡Notificaciones activadas! 🔔 Te mando una de prueba…')
+    // De una vez, sin que tenga que tocar nada más: llega la notificación
+    await probarNotificacion()
+  } else if (r === 'denegado') toast.mostrar('El permiso fue rechazado. Actívalo desde los ajustes del navegador.')
   else if (r === 'sin-llave') toast.mostrar('Falta la llave VAPID pública en el archivo .env (SETUP.md).')
   else if (r === 'no-soportado') toast.mostrar('Este navegador no soporta notificaciones push.')
   else toast.error('No se pudieron activar las notificaciones.')
 }
 
 const empujeActivo = computed(() => permiso.value === 'permitido')
+
+// Si el permiso ya estaba concedido pero falta la suscripción (p. ej. se activó
+// desde los ajustes del navegador y nunca pasó por el botón), la registramos solos
+// al entrar en esta pantalla, para que los avisos sí lleguen a este dispositivo.
+onMounted(async () => {
+  if (permiso.value !== 'permitido' || !soportaPush()) return
+  try {
+    const registro = await navigator.serviceWorker.register('/sw.js')
+    const suscripcion = await registro.pushManager.getSubscription()
+    if (suscripcion) return
+    const r = await activarNotificaciones()
+    if (r === 'ok') toast.ok('Este dispositivo quedó registrado para recibir avisos 🔔')
+  } catch (e) {
+    console.warn('No se pudo revisar la suscripción push:', e?.message)
+  }
+})
 
 /** Manda una notificación de prueba a ESTE dispositivo. */
 const probando = ref(false)
