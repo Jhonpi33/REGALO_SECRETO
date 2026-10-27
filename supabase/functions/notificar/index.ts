@@ -11,8 +11,9 @@
 //   { "tipo": "perdon" }       -> carta de perdón a la pareja
 //   { "tipo": "perdon-si" }    -> "me perdonaste" (avisa a quien envió la carta)
 //   { "tipo": "perdon-no" }    -> "todavía no"     (avisa a quien envió la carta)
+//   { "tipo": "prueba" }       -> prueba de notificación a ESTE usuario
 //
-// Los tipos "perdon*" exigen sesión de usuario real (nunca el rol anon).
+// Los tipos "perdon*" y "prueba" exigen sesión de usuario real (nunca el rol anon).
 //
 // Secretos necesarios:
 //   VAPID_PRIVATE_KEY   -> generada con  npx web-push generate-vapid-keys
@@ -83,8 +84,8 @@ Deno.serve(async (req: Request) => {
     let destinatarios: Destinatario[] = []
     let extra: Record<string, unknown> = {}
 
-    if (TIPOS_PERDON.has(tipo)) {
-      // ---------- Carta de perdón: exige usuario real ----------
+    if (TIPOS_PERDON.has(tipo) || tipo === 'prueba') {
+      // ---------- Exige usuario real (nunca la llave anónima) ----------
       const token = (req.headers.get('Authorization') ?? '').replace(/^Bearer\s+/i, '')
       const { data: authData, error: errorAuth } = await supabase.auth.getUser(token)
       const usuario = authData?.user
@@ -92,6 +93,24 @@ Deno.serve(async (req: Request) => {
         return json({ error: 'Esta notificación requiere sesión iniciada.' }, 401)
       }
 
+      if (tipo === 'prueba') {
+        // Prueba: le avisa solo a quien la pide (para comprobar el push del dispositivo)
+        const { data: perfil } = await supabase
+          .from('perfiles')
+          .select('nombre')
+          .eq('id', usuario.id)
+          .maybeSingle()
+
+        mensaje = {
+          titulo: '¡Te está llegando! 🎁',
+          cuerpo: `${perfil?.nombre ?? 'Hola'}, esta es una prueba de Regalo Secreto: ya puedo avisarte cuando toque 💕`,
+          ruta: '/app/pistas',
+          tag: 'prueba'
+        }
+        destinatarios = [{ id: usuario.id, nombre: perfil?.nombre ?? 'Yo' }]
+        extra = { prueba: true }
+      } else {
+      // ---------- Carta de perdón ----------
       const { data: fila0 } = await supabase
         .from('perdones')
         .select('*')
@@ -182,6 +201,7 @@ Deno.serve(async (req: Request) => {
         }
         destinatarios = [{ id: fila.de_id, nombre: nombreDe }]
         extra = { estado: 'perdonado', rechazos: fila.rechazos ?? 0 }
+      }
       }
     } else {
       // ---------- Avisos programados ----------

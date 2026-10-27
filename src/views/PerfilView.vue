@@ -65,6 +65,25 @@ async function alternarNotificaciones() {
 }
 
 const empujeActivo = computed(() => permiso.value === 'permitido')
+
+/** Manda una notificación de prueba a ESTE dispositivo. */
+const probando = ref(false)
+async function probarNotificacion() {
+  probando.value = true
+  try {
+    const { data, error } = await supabase.functions.invoke('notificar', { body: { tipo: 'prueba' } })
+    if (error) throw new Error(error.message ?? 'No se pudo enviar')
+    if (data?.enviados > 0) {
+      toast.ok(`¡Te llegó la prueba! 🎉 (${data.enviados} dispositivo${data.enviados === 1 ? '' : 's'})`)
+    } else {
+      toast.mostrar('No llegó: este dispositivo no tiene la suscripción. Toca "Activar notificaciones 🔔" otra vez.')
+    }
+  } catch (e) {
+    toast.error('No se pudo enviar la prueba: ' + (e?.message ?? ''))
+  } finally {
+    probando.value = false
+  }
+}
 </script>
 
 <template>
@@ -120,6 +139,9 @@ const empujeActivo = computed(() => permiso.value === 'permitido')
           Activar notificaciones 🔔
         </button>
         <button v-else class="btn btn--secundario" @click="alternarNotificaciones">Desactivar 🔕</button>
+        <button v-if="empujeActivo" class="btn btn--secundario" :disabled="probando" @click="probarNotificacion">
+          {{ probando ? 'Enviando…' : 'Probar notificación 🔔' }}
+        </button>
         <router-link class="btn btn--secundario" to="/instalar">Cómo instalar la app</router-link>
       </div>
 
